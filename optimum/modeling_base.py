@@ -293,6 +293,7 @@ class OptimizedModel(PreTrainedModel):
     def from_pretrained(
         cls,
         model_id: Union[str, Path],
+        adapter_path: Union[str, Path] = None,
         export: bool = False,
         force_download: bool = False,
         use_auth_token: Optional[str] = None,
@@ -373,6 +374,7 @@ class OptimizedModel(PreTrainedModel):
             model_id=model_id,
             config=config,
             revision=revision,
+            adapter_path=adapter_path,
             cache_dir=cache_dir,
             force_download=force_download,
             use_auth_token=use_auth_token,

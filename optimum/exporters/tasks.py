@@ -1714,6 +1714,7 @@ class TasksManager:
 
         model_type = None
         model_class_name = None
+        adapter_path = model_kwargs.pop("adapter_path")
         kwargs = {"subfolder": subfolder, "revision": revision, "cache_dir": cache_dir, **model_kwargs}
 
         if library_name == "transformers":
@@ -1766,6 +1767,13 @@ class TasksManager:
                 logger.info("Loading PyTorch model in TensorFlow before exporting.")
                 kwargs["from_pt"] = True
                 model = model_class.from_pretrained(model_name_or_path, **kwargs)
+        if adapter_path is not None:
+            from peft import PeftModel
+            lora_model = PeftModel.from_pretrained(
+                model,
+                adapter_path,
+                **kwargs
+            )
         return model
 
     @staticmethod
